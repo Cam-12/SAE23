@@ -12,20 +12,6 @@
     <script src="{% static 'serveur/script.js' %}"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin" class="avatar">
-            <span class="admin-name">Administrateur</span>
-        </div>
-        <ul class="sidebar-menu">
-            <li class="active"><a href="index.html" class="sidebar-link"><span class="icon"><i class='bx bx-home'></i></span> Dashboard</a></li>
-            <li><a href="/serveur" class="sidebar-link"><span class="icon"><i class='bx bx-server'></i></span> Serveurs</a></li>
-            <li><a href="/type_serveur" class="sidebar-link"><span class="icon"><i class='bx bx-laptop'></i></span> Type de serveurs</a></li>
-            <li><a href="/utilisateur" class="sidebar-link"><span class="icon"><i class='bx bxs-group'></i></span> Utilisateurs</a></li>
-            <li><a href="/service" class="sidebar-link"><span class="icon"><i class='bx bx-layers'></i></span> Services</a></li>
-            <li><a href="/application" class="sidebar-link"><span class="icon"><i class='bx bx-mobile'></i></span> Applications</a></li>
-        </ul>
-    </div>
     {% block content %}
 
     {% endblock %}
