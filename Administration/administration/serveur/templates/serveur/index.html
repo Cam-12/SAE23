@@ -1,0 +1,72 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+        <header>
+            <input type="text" placeholder="Rechercher" class="search-bar">
+            <div class="header-icons">
+                <span><i class='bx bx-moon'></i></span>
+                <span><i class='bx bx-bell'></i></span>
+                <span><i class='bx bx-user'></i></span>
+                <span><i class='bx bx-cog'></i></span>
+            </div>
+        </header>
+        <section class="dashboard-header">
+            <h1>DASHBOARD</h1>
+            <p>Bienvenue sur le dashboard</p>
+        </section>
+        <section class="stats-cards">
+            <div class="card">
+                <div class="card-icon"><i class='bx bxs-user-plus'></i></div>
+                <div class="card-value">32</div>
+                <div class="card-label">Nouveaux utilisateurs</div>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class='bx bxs-envelope' style="color:#359a7e"></i></div>
+                <div class="card-value">57</div>
+                <div class="card-label">Nouveaux messages</div>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class='bx bx-traffic-barrier'></i></div>
+                <div class="card-value">158</div>
+                <div class="card-label">Nouvelles visites</div>
+            </div>
+        </section>
+        <section class="chart-section">
+            <div class="chart-header">
+                <span class="chart-title">Nombres d'utilisateurs</span>
+                <span class="chart-value">154</span>
+            </div>
+            <canvas id="usersChart"></canvas>
+        </section>
+    </div>
+    <script>
+        const ctx = document.getElementById('usersChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                datasets: [{
+                    label: 'Utilisateurs',
+                    data: [20, 35, 50, 80, 100, 120, 300, 350, 370, 400, 420, 450],
+                    borderColor: '#2ed8b6',
+                    backgroundColor: 'rgba(46,216,182,0.1)',
+                    tension: 0.3,
+                    pointBackgroundColor: '#2ed8b6',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                plugins: { legend: { display: true } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#232b3e' }, ticks: { color: '#b2becd' } },
+                    x: { grid: { color: '#232b3e' }, ticks: { color: '#b2becd' } }
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

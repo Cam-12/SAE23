@@ -1,0 +1,63 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+        <header>
+            <input type="text" placeholder="Rechercher" class="search-bar">
+            <div class="header-icons">
+                <span><i class='bx bx-moon'></i></span>
+                <span><i class='bx bx-bell'></i></span>
+                <span><i class='bx bx-user'></i></span>
+                <span><i class='bx bx-cog'></i></span>
+            </div>
+        </header>
+        <section class="dashboard-header">
+            <h1>UTILISATEURS</h1>
+            <p>Liste des utilisateurs</p>
+        </section>
+        <section class="users-actions">
+            <a href="#" class="table-action-add"><i class='bx bx-plus'></i> Ajouter un utilisateur</a>
+            <a href="#" class="table-action"><i class='bx bx-table-columns'></i> Colonne</a>
+            <button class="table-action"><i class='bx bx-filter'></i> Filtre</button>
+            <button class="table-action"><i class='bx bx-archive-arrow-down'></i> Exporter</button>
+        </section>
+        <section class="users-table-section">
+            <div class="users-table-header">
+                <input type="checkbox">
+                <span>ID</span>
+                <span>Nom</span>
+                <span>Prénom</span>
+                <span>Actions</span>
+            </div>
+            <div class="users-table-row">
+                <input type="checkbox">
+                <span>1</span>
+                <span>Dupont</span>
+                <span>Camille</span>
+                <span style="position:relative;">
+                    <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
+                    <div class="dropdown-menu">
+                        <a href="#">Modifier</a>
+                        <a href="#">Supprimer</a>
+                    </div>
+                </span>
+            </div>
+
+            <div class="users-table-footer">
+                <span>Lignes par page:</span>
+                <select>
+                    <option>100</option>
+                    <option>50</option>
+                    <option>25</option>
+                </select>
+                <span>1-5 sur 5</span>
+                <button class="footer-nav">&lt;</button>
+                <button class="footer-nav">&gt;</button>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}
