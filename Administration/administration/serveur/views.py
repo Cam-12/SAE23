@@ -41,7 +41,7 @@ def delete_type_serveur(request, id):
 # --- SERVEUR ---
 def list_serveurs(request):
     serveurs = models.Serveurs.objects.all()
-    return render(request, "serveur/serveur_list.html", {"serveurs": serveurs})
+    return render(request, "serveur/serveurs.html", {"serveurs": serveurs})
 
 def add_serveur(request):
     if request.method == "POST":
@@ -51,7 +51,7 @@ def add_serveur(request):
             return redirect("list_serveurs")
     else:
         form = SeveursForm()
-    return render(request, "serveur/serveur_form.html", {"form": form})
+    return render(request, "serveur/serveurs_form.html", {"form": form})
 
 def update_serveur(request, id):
     serveur = get_object_or_404(models.Serveurs, pk=id)
@@ -62,7 +62,7 @@ def update_serveur(request, id):
             return redirect("list_serveurs")
     else:
         form = SeveursForm(instance=serveur)
-    return render(request, "serveur/serveur_form.html", {"form": form, "id": id})
+    return render(request, "serveur/serveurs_form.html", {"form": form, "id": id})
 
 def delete_serveur(request, id):
     serveur = get_object_or_404(models.Serveurs, pk=id)
