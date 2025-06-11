@@ -9,7 +9,7 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'serveur/style.css' %}">
-    <script src="{% static 'script.js' %}"></script>
+    <script src="{% static 'serveur/script.js' %}"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -21,12 +21,11 @@
             <li class="active"><a href="index.html" class="sidebar-link"><span class="icon"><i class='bx bx-home'></i></span> Dashboard</a></li>
             <li><span class="icon"><i class="bx bx-server"></i></span> Serveurs</li>
             <li><span class="icon"><i class="bx bx-laptop"></i></span> Type de serveurs</li>
-            <li><a href="users.html" class="sidebar-link"><span class="icon"><i class='bx bxs-group'></i></span> Utilisateurs</a></li>
+            <li><a href="/serveur/utilisateur" class="sidebar-link"><span class="icon"><i class='bx bxs-group'></i></span> Utilisateurs</a></li>
             <li><span class="icon"><i class='bx bx-layers'></i></span> Services</li>
             <li><span class="icon"><i class='bx bx-mobile'></i></span> Applications</li>
         </ul>
     </div>
-
     {% block content %}
 
     {% endblock %}
