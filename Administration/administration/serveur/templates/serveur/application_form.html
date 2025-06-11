@@ -1,0 +1,15 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Ajouter une application{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <h2>Ajouter une application</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{% url 'list_applications' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

@@ -53,8 +53,8 @@ class Utilisateurs(models.Model):
 
 class Applications(models.Model):
     nom = models.CharField(max_length=100, blank=False)
-    logo = models.ImageField(blank=False)
-    utilisateur = models.ForeignKey(Utilisateurs, on_delete=models.CASCADE)
+    logo = models.ImageField(upload_to='logos/', blank=False)
+    utilisateur = models.ForeignKey('Utilisateurs', on_delete=models.CASCADE)
 
     def __str__(self):
         chaine = f"{self.nom}"

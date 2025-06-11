@@ -10,7 +10,7 @@ def index(request):
 # --- TYPE SERVEUR ---
 def list_type_serveur(request):
     types = models.TypeServeurs.objects.all()
-    return render(request, "serveur/type_serveur_list.html", {"types": types})
+    return render(request, "serveur/type_serveurs.html", {"types": types})
 
 def add_type_serveur(request):
     if request.method == "POST":
@@ -20,7 +20,7 @@ def add_type_serveur(request):
             return redirect("list_type_serveur")
     else:
         form = typeServeurForm()
-    return render(request, "serveur/type_serveur_form.html", {"form": form})
+    return render(request, "serveur/type_serveurs_form.html", {"form": form})
 
 def update_type_serveur(request, id):
     type_srv = get_object_or_404(models.TypeServeurs, pk=id)
@@ -31,7 +31,7 @@ def update_type_serveur(request, id):
             return redirect("list_type_serveur")
     else:
         form = typeServeurForm(instance=type_srv)
-    return render(request, "serveur/type_serveur_form.html", {"form": form, "id": id})
+    return render(request, "serveur/type_serveurs_form.html", {"form": form, "id": id})
 
 def delete_type_serveur(request, id):
     type_srv = get_object_or_404(models.TypeServeurs, pk=id)
@@ -72,7 +72,7 @@ def delete_serveur(request, id):
 # --- SERVICE ---
 def list_services(request):
     services = models.Services.objects.all()
-    return render(request, "serveur/service_list.html", {"services": services})
+    return render(request, "serveur/service.html", {"services": services})
 
 def add_service(request):
     if request.method == "POST":
@@ -134,11 +134,11 @@ def delete_utilisateur(request, id):
 # --- APPLICATION ---
 def list_applications(request):
     applications = models.Applications.objects.all()
-    return render(request, "serveur/application_list.html", {"applications": applications})
+    return render(request, "serveur/application.html", {"applications": applications})
 
 def add_application(request):
     if request.method == "POST":
-        form = ApplicationsForm(request.POST)
+        form = ApplicationsForm(request.POST, request.FILES)  # <-- IMPORTANT
         if form.is_valid():
             form.save()
             return redirect("list_applications")

@@ -1,0 +1,59 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Services{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <header>
+        <input type="text" placeholder="Rechercher" class="search-bar">
+        <div class="header-icons">
+            <span><i class='bx bx-moon'></i></span>
+            <span><i class='bx bx-bell'></i></span>
+            <span><i class='bx bx-user'></i></span>
+            <span><i class='bx bx-cog'></i></span>
+        </div>
+    </header>
+    <section class="dashboard-header">
+        <h1>SERVICES</h1>
+        <p>Liste des services</p>
+    </section>
+    <section class="users-actions">
+        <a href="{% url 'add_service' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter un service</a>
+    </section>
+    <section class="users-table-section">
+        <div class="users-table-header">
+            <span>ID</span>
+            <span>Nom</span>
+            <span>Date lancement</span>
+            <span>Espace mémoire</span>
+            <span>Mémoire vive</span>
+            <span>Serveur de lancement</span>
+            <span>Actions</span>
+        </div>
+        {% for service in services %}
+        <div class="users-table-row">
+            <span>{{ service.id }}</span>
+            <span>{{ service.nom }}</span>
+            <span>{{ service.date_lancement }}</span>
+            <span>{{ service.espace_memoire }}</span>
+            <span>{{ service.memoire_vive }}</span>
+            <span>{{ service.serveur_lancement.nom }}</span>
+            <span style="position:relative;">
+                <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'update_service' service.id %}">Modifier</a>
+                    <a href="{% url 'delete_service' service.id %}">Supprimer</a>
+                </div>
+            </span>
+        </div>
+        {% empty %}
+        <div class="users-table-row">
+            <span colspan="7">Aucun service trouvé.</span>
+        </div>
+        {% endfor %}
+        <div class="users-table-footer">
+            <span>{{ services|length }} service{{ services|length|pluralize }}</span>
+        </div>
+    </section>
+</div>
+{% endblock %}

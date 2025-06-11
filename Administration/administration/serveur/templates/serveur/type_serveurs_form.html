@@ -1,0 +1,15 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Ajouter un type de serveur{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <h2>Ajouter un type de serveur</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{% url 'list_type_serveur' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Applications{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <header>
+        <input type="text" placeholder="Rechercher" class="search-bar">
+        <div class="header-icons">
+            <span><i class='bx bx-moon'></i></span>
+            <span><i class='bx bx-bell'></i></span>
+            <span><i class='bx bx-user'></i></span>
+            <span><i class='bx bx-cog'></i></span>
+        </div>
+    </header>
+    <section class="dashboard-header">
+        <h1>APPLICATIONS</h1>
+        <p>Liste des applications</p>
+    </section>
+    <section class="users-actions">
+        <a href="{% url 'add_application' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter une application</a>
+    </section>
+    <section class="users-table-section">
+        <div class="users-table-header">
+            <span>ID</span>
+            <span>Nom</span>
+            <span>Logo</span>
+            <span>Utilisateur</span>
+            <span>Actions</span>
+        </div>
+        {% for application in applications %}
+        <div class="users-table-row">
+            <span>{{ application.id }}</span>
+            <span>{{ application.nom }}</span>
+            <span>
+                {% if application.logo %}
+                    <img src="{{ application.logo.url }}" alt="Logo" style="height:32px;">
+                {% else %}
+                    -
+                {% endif %}
+            </span>
+            <span>{{ application.utilisateur.nom }} {{ application.utilisateur.prenom }}</span>
+            <span style="position:relative;">
+                <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'update_application' application.id %}">Modifier</a>
+                    <a href="{% url 'delete_application' application.id %}">Supprimer</a>
+                </div>
+            </span>
+        </div>
+        {% empty %}
+        <div class="users-table-row">
+            <span colspan="5">Aucune application trouvée.</span>
+        </div>
+        {% endfor %}
+        <div class="users-table-footer">
+            <span>{{ applications|length }} application{{ applications|length|pluralize }}</span>
+        </div>
+    </section>
+</div>
+{% endblock %}

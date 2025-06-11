@@ -1,0 +1,53 @@
+{% extends 'serveur/main.html' %}
+{% load static %}
+{% block title %}Types de serveurs{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <header>
+        <input type="text" placeholder="Rechercher" class="search-bar">
+        <div class="header-icons">
+            <span><i class='bx bx-moon'></i></span>
+            <span><i class='bx bx-bell'></i></span>
+            <span><i class='bx bx-user'></i></span>
+            <span><i class='bx bx-cog'></i></span>
+        </div>
+    </header>
+    <section class="dashboard-header">
+        <h1>TYPES DE SERVEURS</h1>
+        <p>Liste des types de serveurs</p>
+    </section>
+    <section class="users-actions">
+        <a href="{% url 'add_type_serveur' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter un type</a>
+    </section>
+    <section class="users-table-section">
+        <div class="users-table-header">
+            <span>ID</span>
+            <span>Type</span>
+            <span>Description</span>
+            <span>Actions</span>
+        </div>
+        {% for type in types %}
+        <div class="users-table-row">
+            <span>{{ type.id }}</span>
+            <span>{{ type.type }}</span>
+            <span>{{ type.description }}</span>
+            <span style="position:relative;">
+                <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'update_type_serveur' type.id %}">Modifier</a>
+                    <a href="{% url 'delete_type_serveur' type.id %}">Supprimer</a>
+                </div>
+            </span>
+        </div>
+        {% empty %}
+        <div class="users-table-row">
+            <span colspan="4">Aucun type de serveur trouvé.</span>
+        </div>
+        {% endfor %}
+        <div class="users-table-footer">
+            <span>{{ types|length }} type{{ types|length|pluralize }}</span>
+        </div>
+    </section>
+</div>
+{% endblock %}
