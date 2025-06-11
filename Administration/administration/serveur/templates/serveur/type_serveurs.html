@@ -33,9 +33,13 @@
     </section>
     <section class="users-actions">
         <a href="{% url 'add_type_serveur' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter un type</a>
+        <a href="#" class="table-action"><i class='bx bx-table-columns'></i> Colonne</a>
+        <button class="table-action"><i class='bx bx-filter'></i> Filtre</button>
+        <button class="table-action"><i class='bx bx-archive-arrow-down'></i> Exporter</button>
     </section>
     <section class="users-table-section">
         <div class="users-table-header">
+            <input type="checkbox">
             <span>ID</span>
             <span>Type</span>
             <span>Description</span>
@@ -43,6 +47,7 @@
         </div>
         {% for type in types %}
         <div class="users-table-row">
+            <input type="checkbox">
             <span>{{ type.id }}</span>
             <span>{{ type.type }}</span>
             <span>{{ type.description }}</span>
