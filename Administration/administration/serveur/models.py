@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class TypeServeurs(models.Model):
     type = models.CharField(max_length=100, blank=False)
@@ -40,6 +41,8 @@ class Services(models.Model):
 
     def dicoServices(self):
         return {"nom": self.nom, "date_lancement": self.date_lancement, "ram_util": self.ram_util, "ram_ness": self.ram_ness, "serveur_lanc": self.serveur_lanc, "cpu": self.cpu, "disk": self.disk}
+
+
 
 class Utilisateurs(models.Model):
     nom = models.CharField(max_length=100, blank=False)

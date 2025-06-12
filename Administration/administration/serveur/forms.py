@@ -43,34 +43,63 @@ class ServicesForm(ModelForm):
         serveur = cleaned_data.get('serveur_lanc')
         ram_ness = cleaned_data.get('ram_ness')
         ram_util = cleaned_data.get('ram_util')
+        cpu = cleaned_data.get('cpu')
+        disk = cleaned_data.get('disk')
 
-        # 1. Vérifier que RAM utilisée ≤ RAM nécessaire
         if ram_util is not None and ram_ness is not None:
             if ram_util > ram_ness:
                 self.add_error('ram_util', _("La RAM utilisée ne peut pas être supérieure à la RAM nécessaire."))
 
-        # 2. Vérifier que la RAM totale demandée ne dépasse pas la RAM du serveur
-        if serveur and ram_ness is not None:
+        if serveur:
             existing_services = models.Services.objects.filter(serveur_lanc=serveur)
             if self.instance.pk:
                 existing_services = existing_services.exclude(pk=self.instance.pk)
 
-            ram_necessaire_actuelle = sum(service.ram_ness for service in existing_services)
-            ram_necessaire_totale = ram_necessaire_actuelle + ram_ness
-
-            if ram_necessaire_totale > serveur.ram:
+            # --- RAM ---
+            total_ram_ness = sum(s.ram_ness for s in existing_services) + (ram_ness or 0)
+            if ram_ness is not None and total_ram_ness > serveur.ram:
                 raise forms.ValidationError(
                     _(
                         "Ce serveur ne dispose plus de suffisamment de RAM.\n"
-                        "RAM disponible : %(ram_total)s Go\n"
-                        "RAM déjà utilisée : %(ram_utilisee)s Go\n"
-                        "RAM demandée : %(ram_nouvelle)s Go\n"
-                        "RAM totale après ajout : %(ram_totale)s Go"
+                        "RAM totale : %(total)s Go\n"
+                        "RAM utilisée : %(utilisee)s Go\n"
+                        "RAM demandée : %(demande)s Go"
                     ) % {
-                        'ram_total': serveur.ram,
-                        'ram_utilisee': ram_necessaire_actuelle,
-                        'ram_nouvelle': ram_ness,
-                        'ram_totale': ram_necessaire_totale
+                        'total': serveur.ram,
+                        'utilisee': total_ram_ness - ram_ness,
+                        'demande': ram_ness
+                    }
+                )
+
+            # --- CPU ---
+            total_cpu = sum(s.cpu for s in existing_services) + (cpu or 0)
+            if cpu is not None and total_cpu > serveur.cpu:
+                raise forms.ValidationError(
+                    _(
+                        "Ce serveur ne dispose plus de suffisamment de CPU.\n"
+                        "CPU total : %(total)s\n"
+                        "CPU utilisé : %(utilise)s\n"
+                        "CPU demandé : %(demande)s"
+                    ) % {
+                        'total': serveur.cpu,
+                        'utilise': total_cpu - cpu,
+                        'demande': cpu
+                    }
+                )
+
+            # --- DISK ---
+            total_disk = sum(s.disk for s in existing_services) + (disk or 0)
+            if disk is not None and total_disk > serveur.disk:
+                raise forms.ValidationError(
+                    _(
+                        "Ce serveur ne dispose plus de suffisamment d'espace disque.\n"
+                        "Disque total : %(total)s Go\n"
+                        "Disque utilisé : %(utilise)s Go\n"
+                        "Disque demandé : %(demande)s Go"
+                    ) % {
+                        'total': serveur.disk,
+                        'utilise': total_disk - disk,
+                        'demande': disk
                     }
                 )
 
@@ -79,16 +108,59 @@ class ServicesForm(ModelForm):
 class ApplicationsForm(ModelForm):
     class Meta:
         model = models.Applications
-        fields = ('nom', 'logo', 'utilisateur', 'cpu', 'ram', 'disk')
+        fields = ('nom', 'logo', 'utilisateur', 'cpu', 'ram', 'disk', 'service')
         labels = {
             'nom' : _("Nom de l'application"),
             'logo' : _("Logo de l'application"),
             'utilisateur' : _('Utilisateur associer'),
             'cpu': _('Nombres de processeurs'),
             'ram': _('RAM'),
-            'disk': _('Espace disque')
+            'disk': _('Espace disque'),
+            'service': _('Service utilisée')
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        cpu = cleaned_data.get('cpu') or 0
+        ram = cleaned_data.get('ram') or 0
+        disk = cleaned_data.get('disk') or 0
+        services = cleaned_data.get('service')
+
+        if not services:
+            return cleaned_data  # Aucun service sélectionné → aucune vérification possible
+
+        for service in services:
+            # Récupérer les autres applications déjà liées à ce service
+            existing_apps = models.Applications.objects.filter(service=service)
+            if self.instance.pk:
+                existing_apps = existing_apps.exclude(pk=self.instance.pk)
+
+            total_cpu = sum(app.cpu for app in existing_apps) + cpu
+            total_ram = sum(app.ram for app in existing_apps) + ram
+            total_disk = sum(app.disk for app in existing_apps) + disk
+
+            # Vérification CPU
+            if total_cpu > service.cpu:
+                self.add_error('cpu', _(
+                    f"Capacité CPU dépassée pour le service '{service.nom}'. "
+                    f"Total demandé : {total_cpu} / Capacité : {service.cpu}"
+                ))
+
+            # Vérification RAM
+            if total_ram > service.ram_util:
+                self.add_error('ram', _(
+                    f"Capacité RAM dépassée pour le service '{service.nom}'. "
+                    f"Total demandé : {total_ram} / Capacité : {service.ram_util}"
+                ))
+
+            # Vérification disque
+            if total_disk > service.disk:
+                self.add_error('disk', _(
+                    f"Capacité disque dépassée pour le service '{service.nom}'. "
+                    f"Total demandé : {total_disk} / Capacité : {service.disk}"
+                ))
+
+        return cleaned_data
 class UtilisateursForm(ModelForm):
     class Meta:
         model = models.Utilisateurs

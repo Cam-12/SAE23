@@ -1,11 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from . import models
+from .models import Serveurs, Services, Utilisateurs
 from .forms import typeServeurForm, SeveursForm, ServicesForm, ApplicationsForm, UtilisateursForm, RessourcesForm
 
 
 def index(request):
-    Serveurs = models.Serveurs.objects.all()
-    return render(request, "serveur/index.html", {"Serveurs" : Serveurs})
+    nb_serveurs = Serveurs.objects.count()
+    nb_services = Services.objects.count()
+    nb_utilisateurs = Utilisateurs.objects.count()
+
+    context = {
+        'nb_serveurs': nb_serveurs,
+        'nb_services': nb_services,
+        'nb_utilisateurs': nb_utilisateurs,
+    }
+    return render(request, 'serveur/index.html', context)
 
 # --- TYPE SERVEUR ---
 def list_type_serveur(request):

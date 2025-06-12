@@ -18,15 +18,6 @@
         </ul>
     </div>
 <div class="main-content">
-        <header>
-            <input type="text" placeholder="Rechercher" class="search-bar">
-            <div class="header-icons">
-                <span><i class='bx bx-moon'></i></span>
-                <span><i class='bx bx-bell'></i></span>
-                <span><i class='bx bx-user'></i></span>
-                <span><i class='bx bx-cog'></i></span>
-            </div>
-        </header>
         <section class="dashboard-header">
             <h1>DASHBOARD</h1>
             <p>Bienvenue sur le dashboard</p>
@@ -34,17 +25,17 @@
         <section class="stats-cards">
             <div class="card">
                 <div class="card-icon"><i class='bx bx-layers'></i></div>
-                <div class="card-value">32</div>
+                <div class="card-value">{{ nb_services }}</div>
                 <div class="card-label">Nombres de services</div>
             </div>
             <div class="card">
                 <div class="card-icon"><i class='bx bx-server' style="color:#359a7e"></i></div>
-                <div class="card-value">57</div>
+                <div class="card-value">{{ nb_serveurs }}</div>
                 <div class="card-label">Nombres de serveurs</div>
             </div>
             <div class="card">
                 <div class="card-icon"><i class='bx bxs-group'></i></div>
-                <div class="card-value">158</div>
+                <div class="card-value">{{ nb_utilisateurs }}</div>
                 <div class="card-label">Nombres d'utilisateurs</div>
             </div>
         </section>
