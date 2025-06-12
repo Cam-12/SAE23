@@ -36,6 +36,7 @@
     </section>
     <section class="users-table-section">
         <div class="users-table-header">
+            <input type="checkbox">
             <span>ID</span>
             <span>Nom</span>
             <span>Date lancement</span>
@@ -46,12 +47,13 @@
         </div>
         {% for service in services %}
         <div class="users-table-row">
+            <input type="checkbox">
             <span>{{ service.id }}</span>
             <span>{{ service.nom }}</span>
             <span>{{ service.date_lancement }}</span>
-            <span>{{ service.espace_memoire }}</span>
-            <span>{{ service.memoire_vive }}</span>
-            <span>{{ service.serveur_lancement.nom }}</span>
+            <span>{{ service.ram_util }}</span>
+            <span>{{ service.ram_ness }}</span>
+            <span>{{ service.serveur_lanc }}</span>
             <span style="position:relative;">
                 <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
                 <div class="dropdown-menu">

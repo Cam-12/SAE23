@@ -239,12 +239,22 @@ header {
 .users-table-header,
 .users-table-row {
     display: grid;
-    grid-template-columns: 50px 80px 1fr 1fr 100px;
+    grid-template-columns: 50px 80px 1fr 1fr 1fr 1fr 1fr 120px;
     align-items: center;
     padding: 0 24px;
     height: 56px;
     font-weight: bold;
     font-size: 1em;
+}
+
+.users-table-5cols .users-table-header,
+.users-table-5cols .users-table-row {
+    grid-template-columns: 80px 1fr 1fr 1fr 120px;
+}
+
+.users-table-6cols .users-table-header,
+.users-table-6cols .users-table-row {
+    grid-template-columns: 80px 1fr 1fr 1fr 1fr 120px;
 }
 
 .users-table-header {

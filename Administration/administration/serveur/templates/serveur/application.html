@@ -34,8 +34,9 @@
     <section class="users-actions">
         <a href="{% url 'add_application' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter une application</a>
     </section>
-    <section class="users-table-section">
+    <section class="users-table-section users-table-6cols">
         <div class="users-table-header">
+            <input type="checkbox">
             <span>ID</span>
             <span>Nom</span>
             <span>Logo</span>
@@ -44,6 +45,7 @@
         </div>
         {% for application in applications %}
         <div class="users-table-row">
+            <input type="checkbox">
             <span>{{ application.id }}</span>
             <span>{{ application.nom }}</span>
             <span>
