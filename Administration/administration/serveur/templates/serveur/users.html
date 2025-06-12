@@ -37,12 +37,13 @@
         <button class="table-action"><i class='bx bx-filter'></i> Filtre</button>
         <button class="table-action"><i class='bx bx-archive-arrow-down'></i> Exporter</button>
     </section>
-    <section class="users-table-section users-table-5cols">
+    <section class="users-table-section users-table-6cols">
         <div class="users-table-header">
             <input type="checkbox">
             <span>ID</span>
             <span>Nom</span>
             <span>Prénom</span>
+            <span>Email</span>
             <span>Actions</span>
         </div>
         {% for utilisateur in utilisateurs %}
@@ -51,6 +52,7 @@
             <span>{{ utilisateur.id }}</span>
             <span>{{ utilisateur.nom }}</span>
             <span>{{ utilisateur.prenom }}</span>
+            <span>{{ utilisateur.email }}</span>
             <span style="position:relative;">
                 <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
                 <div class="dropdown-menu">
