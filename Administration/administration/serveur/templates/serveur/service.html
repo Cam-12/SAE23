@@ -34,26 +34,28 @@
     <section class="users-actions">
         <a href="{% url 'add_service' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter un service</a>
     </section>
-    <section class="users-table-section">
+    <section class="users-table-section users-table-9cols">
         <div class="users-table-header">
-            <input type="checkbox">
             <span>ID</span>
             <span>Nom</span>
             <span>Date lancement</span>
             <span>Mémoire utilisé</span>
             <span>Mémoire nécessaire</span>
             <span>Serveur de lancement</span>
+            <span>CPU</span>
+            <span>Disque</span>
             <span>Actions</span>
         </div>
         {% for service in services %}
         <div class="users-table-row">
-            <input type="checkbox">
             <span>{{ service.id }}</span>
             <span>{{ service.nom }}</span>
             <span>{{ service.date_lancement }}</span>
             <span>{{ service.ram_util }}</span>
             <span>{{ service.ram_ness }}</span>
             <span>{{ service.serveur_lanc }}</span>
+            <span>{{ service.cpu }}</span>
+            <span>{{ service.disk }}</span>
             <span style="position:relative;">
                 <button class="action-btn" onclick="toggleDropdown(this)"><i class='bx bx-dots-vertical-rounded'></i></button>
                 <div class="dropdown-menu">

@@ -37,9 +37,8 @@
         <button class="table-action"><i class='bx bx-filter'></i> Filtre</button>
         <button class="table-action"><i class='bx bx-archive-arrow-down'></i> Exporter</button>
     </section>
-    <section class="users-table-section users-table-6cols">
+    <section class="users-table-section users-table-5cols">
         <div class="users-table-header">
-            <input type="checkbox">
             <span>ID</span>
             <span>Nom</span>
             <span>Prénom</span>
@@ -48,7 +47,6 @@
         </div>
         {% for utilisateur in utilisateurs %}
         <div class="users-table-row">
-            <input type="checkbox">
             <span>{{ utilisateur.id }}</span>
             <span>{{ utilisateur.nom }}</span>
             <span>{{ utilisateur.prenom }}</span>

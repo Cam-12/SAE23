@@ -31,13 +31,15 @@ class Services(models.Model):
     ram_util = models.IntegerField(blank=False)
     ram_ness = models.IntegerField(blank=False)
     serveur_lanc = models.ForeignKey(Serveurs, on_delete=models.CASCADE)
+    cpu = models.IntegerField(blank=False, default=1)
+    disk = models.IntegerField(blank=False, default=1)
 
     def __str__(self):
         chaine = f"{self.nom}"
         return chaine
 
     def dicoServices(self):
-        return {"nom": self.nom, "date_lancement": self.date_lancement, "ram_util": self.ram_util, "ram_ness": self.ram_ness, "serveur_lanc": self.serveur_lanc}
+        return {"nom": self.nom, "date_lancement": self.date_lancement, "ram_util": self.ram_util, "ram_ness": self.ram_ness, "serveur_lanc": self.serveur_lanc, "cpu": self.cpu, "disk": self.disk}
 
 class Utilisateurs(models.Model):
     nom = models.CharField(max_length=100, blank=False)
@@ -55,13 +57,17 @@ class Applications(models.Model):
     nom = models.CharField(max_length=100, blank=False)
     logo = models.ImageField(upload_to='logos/', null=True, blank=False)
     utilisateur = models.ForeignKey('Utilisateurs', on_delete=models.CASCADE)
+    cpu = models.IntegerField(blank=False, default=1)
+    ram = models.IntegerField(blank=False, default=1)
+    disk = models.IntegerField(blank=False, default=1)
+    service = models.ManyToManyField(Services, through='Ressources')
 
     def __str__(self):
         chaine = f"{self.nom}"
         return chaine
 
     def dicoApplications(self):
-        return {"nom": self.nom, "logo": self.logo, "utilisateur": self.utilisateur}
+        return {"nom": self.nom, "logo": self.logo, "utilisateur": self.utilisateur, "cpu": self.cpu, "ram": self.ram, "disk": self.disk, "service": self.service}
 
 class Ressources(models.Model):
     application = models.ForeignKey(Applications, on_delete=models.CASCADE)

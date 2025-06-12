@@ -247,6 +247,11 @@ header {
     font-size: 1em;
 }
 
+.users-table-4cols .users-table-header,
+.users-table-4cols .users-table-row {
+    grid-template-columns: 80px 1fr 1fr 120px;
+}
+
 .users-table-5cols .users-table-header,
 .users-table-5cols .users-table-row {
     grid-template-columns: 80px 1fr 1fr 1fr 120px;
@@ -255,6 +260,16 @@ header {
 .users-table-6cols .users-table-header,
 .users-table-6cols .users-table-row {
     grid-template-columns: 80px 1fr 1fr 1fr 1fr 120px;
+}
+
+.users-table-7cols .users-table-header,
+.users-table-7cols .users-table-row {
+    grid-template-columns: 50px 80px 1fr 1fr 1fr 1fr 120px;
+}
+
+.users-table-9cols .users-table-header,
+.users-table-9cols .users-table-row {
+    grid-template-columns: 50px 80px 1fr 1fr 1fr 1fr 1fr 1fr 120px;
 }
 
 .users-table-header {

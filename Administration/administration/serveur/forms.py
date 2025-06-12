@@ -27,13 +27,15 @@ class SeveursForm(ModelForm):
 class ServicesForm(ModelForm):
     class Meta:
         model = models.Services
-        fields = ('nom', 'date_lancement', 'ram_util', 'ram_ness', 'serveur_lanc')
+        fields = ('nom', 'date_lancement', 'ram_util', 'ram_ness', 'serveur_lanc', 'cpu', 'disk')
         labels = {
             'nom' : _('Nom du service'),
             'date_lancement' : _('Date de lancement'),
             'ram_util' : _('RAM utilisée'),
             'ram_ness' : _('RAM nécessaire'),
-            'serveur_lanc' : _('Serveur de lancement')
+            'serveur_lanc' : _('Serveur de lancement'),
+            'cpu': _('Nombres de processeurs'),
+            'disk': _('Espace disque')
         }
 
     def clean(self):
@@ -77,11 +79,14 @@ class ServicesForm(ModelForm):
 class ApplicationsForm(ModelForm):
     class Meta:
         model = models.Applications
-        fields = ('nom', 'logo', 'utilisateur')
+        fields = ('nom', 'logo', 'utilisateur', 'cpu', 'ram', 'disk')
         labels = {
             'nom' : _("Nom de l'application"),
             'logo' : _("Logo de l'application"),
-            'utilisateur' : _('Utilisateur associer')
+            'utilisateur' : _('Utilisateur associer'),
+            'cpu': _('Nombres de processeurs'),
+            'ram': _('RAM'),
+            'disk': _('Espace disque')
         }
 
 class UtilisateursForm(ModelForm):
