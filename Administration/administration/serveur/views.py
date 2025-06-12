@@ -5,16 +5,36 @@ from .forms import typeServeurForm, SeveursForm, ServicesForm, ApplicationsForm,
 
 
 def index(request):
-    nb_serveurs = Serveurs.objects.count()
+    serveurs = Serveurs.objects.all()
     nb_services = Services.objects.count()
+    nb_serveurs = serveurs.count()
     nb_utilisateurs = Utilisateurs.objects.count()
 
-    context = {
-        'nb_serveurs': nb_serveurs,
+    serveurs_stats = []
+
+    for s in serveurs:
+        services_sur_serveur = Services.objects.filter(serveur_lanc=s)
+
+        total_ram_used = sum(svc.ram_ness for svc in services_sur_serveur)
+        total_cpu_used = sum(svc.cpu for svc in services_sur_serveur)
+        total_disk_used = sum(svc.disk for svc in services_sur_serveur)
+
+        serveurs_stats.append({
+            "nom": s.nom,
+            "ram_utilisee": total_ram_used,
+            "ram_dispo": s.ram - total_ram_used,
+            "cpu_utilise": total_cpu_used,
+            "cpu_dispo": s.cpu - total_cpu_used,
+            "disk_utilise": total_disk_used,
+            "disk_dispo": s.disk - total_disk_used,
+        })
+
+    return render(request, 'serveur/index.html', {
         'nb_services': nb_services,
+        'nb_serveurs': nb_serveurs,
         'nb_utilisateurs': nb_utilisateurs,
-    }
-    return render(request, 'serveur/index.html', context)
+        'serveurs_stats': serveurs_stats
+    })
 
 # --- TYPE SERVEUR ---
 def list_type_serveur(request):

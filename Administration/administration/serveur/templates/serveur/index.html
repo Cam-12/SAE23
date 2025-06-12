@@ -41,36 +41,73 @@
         </section>
         <section class="chart-section">
             <div class="chart-header">
-                <span class="chart-title">Nombres d'utilisateurs</span>
-                <span class="chart-value">154</span>
+                <span class="chart-title">Utilisation des ressources par serveur</span>
             </div>
-            <canvas id="usersChart"></canvas>
+            <canvas id="serverResourcesChart"></canvas>
         </section>
     </div>
     <script>
-        const ctx = document.getElementById('usersChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
+        const serverStats = {{ serveurs_stats|safe }};
+
+        const labels = serverStats.map(s => s.nom);
+
+        const ramUsed = serverStats.map(s => s.ram_utilisee);
+        const ramFree = serverStats.map(s => s.ram_dispo);
+        const cpuUsed = serverStats.map(s => s.cpu_utilise);
+        const cpuFree = serverStats.map(s => s.cpu_dispo);
+        const diskUsed = serverStats.map(s => s.disk_utilise);
+        const diskFree = serverStats.map(s => s.disk_dispo);
+
+        new Chart(document.getElementById('serverResourcesChart').getContext('2d'), {
+            type: 'bar',
             data: {
-                labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                datasets: [{
-                    label: 'Utilisateurs',
-                    data: [20, 35, 50, 80, 100, 120, 300, 350, 370, 400, 420, 450],
-                    borderColor: '#2ed8b6',
-                    backgroundColor: 'rgba(46,216,182,0.1)',
-                    tension: 0.3,
-                    pointBackgroundColor: '#2ed8b6',
-                    pointRadius: 4
-                }]
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'RAM utilisée',
+                        data: ramUsed,
+                        backgroundColor: '#FF6384'
+                    },
+                    {
+                        label: 'RAM disponible',
+                        data: ramFree,
+                        backgroundColor: '#FFB1C1'
+                    },
+                    {
+                        label: 'CPU utilisé',
+                        data: cpuUsed,
+                        backgroundColor: '#36A2EB'
+                    },
+                    {
+                        label: 'CPU disponible',
+                        data: cpuFree,
+                        backgroundColor: '#9BD0F5'
+                    },
+                    {
+                        label: 'Disque utilisé',
+                        data: diskUsed,
+                        backgroundColor: '#4BC0C0'
+                    },
+                    {
+                        label: 'Disque disponible',
+                        data: diskFree,
+                        backgroundColor: '#CFF1F1'
+                    }
+                ]
             },
             options: {
-                plugins: { legend: { display: true } },
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Utilisation des ressources par serveur' }
+                },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#232b3e' }, ticks: { color: '#b2becd' } },
-                    x: { grid: { color: '#232b3e' }, ticks: { color: '#b2becd' } }
+                    x: { stacked: true },
+                    y: { stacked: true, beginAtZero: true }
                 }
             }
         });
     </script>
+
 
 {% endblock %}
