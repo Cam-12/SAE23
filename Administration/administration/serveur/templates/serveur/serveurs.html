@@ -10,10 +10,10 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="{% url 'index' %}" class="sidebar-link"><span class="icon"><i class='bx bx-home'></i></span> Dashboard</a></li>
-            <li class="active"><a href="/serveur" class="sidebar-link"><span class="icon"><i class='bx bx-server'></i></span> Serveurs</a></li>
             <li><a href="/type_serveur" class="sidebar-link"><span class="icon"><i class='bx bx-laptop'></i></span> Type de serveurs</a></li>
-            <li><a href="/utilisateur" class="sidebar-link"><span class="icon"><i class='bx bxs-group'></i></span> Utilisateurs</a></li>
+            <li class="active"><a href="/serveur" class="sidebar-link"><span class="icon"><i class='bx bx-server'></i></span> Serveurs</a></li>
             <li><a href="/service" class="sidebar-link"><span class="icon"><i class='bx bx-layers'></i></span> Services</a></li>
+            <li><a href="/utilisateur" class="sidebar-link"><span class="icon"><i class='bx bxs-group'></i></span> Utilisateurs</a></li>
             <li><a href="/application" class="sidebar-link"><span class="icon"><i class='bx bx-mobile'></i></span> Applications</a></li>
         </ul>
     </div>
@@ -44,8 +44,8 @@
             <span>Nom</span>
             <span>Type</span>
             <span>CPU</span>
-            <span>RAM</span>
-            <span>Disque</span>
+            <span>RAM (Go)</span>
+            <span>Disque (Go)</span>
             <span>Actions</span>
         </div>
         {% for serveur in serveurs %}
