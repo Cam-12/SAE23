@@ -448,23 +448,26 @@ def export_utilisateurs_csv(request):
     return response
 
 def export_applications_csv(request):
-    # Récupère tous les serveurs
     applications = Applications.objects.all()
-    # Crée la réponse HTTP avec le type CSV
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="applications.csv"'
     writer = csv.writer(response)
-    # Écrit l’en-tête
+    # En-tête
     writer.writerow(['nom', 'logo', 'utilisateur_id', 'cpu', 'ram', 'disk', 'services'])
-    # Écrit les données
+    # Données
     for application in applications:
+        # Récupère la liste des IDs de services liés
+        services = application.service.values_list('id', flat=True)
+        services_str = ','.join(map(str, services))
+        # Récupère le nom du fichier logo, ou une chaîne vide si pas de logo
+        logo_name = application.logo.name if application.logo else ''
         writer.writerow([
             application.nom,
-            application.logo,
+            logo_name,
             application.utilisateur_id,
             application.cpu,
             application.ram,
             application.disk,
-            application.services
+            services_str
         ])
     return response
