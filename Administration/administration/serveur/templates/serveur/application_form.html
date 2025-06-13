@@ -1,15 +1,42 @@
 {% extends 'serveur/main.html' %}
-{% load static %}
 {% block title %}Ajouter une application{% endblock %}
 
 {% block content %}
 <div class="main-content">
-    <h2>Ajouter une application</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="{% url 'list_applications' %}" class="btn btn-secondary">Annuler</a>
-    </form>
+    <div class="form-container">
+        <h2 class="form-title">Ajouter une application</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="{% url 'list_applications' %}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
