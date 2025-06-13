@@ -24,7 +24,8 @@
     </section>
     <section class="users-actions">
         <a href="{% url 'add_application' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter une application</a>
-        <button class="table-action"><i class='bx bx-archive-arrow-up'></i> Importer</button>
+        <a href="{% url 'import_application' %}" class="table-action"><i class='bx bx-archive-arrow-down'></i> Importer</a>
+        <a href="{% url 'export_applications_csv' %}" class="table-action"><i class='bx bx-archive-arrow-up'></i> Exporter en CSV</a>
     </section>
     <section class="users-table-section">
         <div class="users-table-header">

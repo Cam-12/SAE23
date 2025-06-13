@@ -24,7 +24,8 @@
     </section>
     <section class="users-actions">
         <a href="{% url 'add_utilisateur' %}" class="table-action-add"><i class='bx bx-plus'></i> Ajouter un utilisateur</a>
-        <button class="table-action"><i class='bx bx-archive-arrow-up'></i> Importer</button>
+        <a href="{% url 'import_utilisateur' %}" class="table-action"><i class='bx bx-archive-arrow-down'></i> Importer</a>
+        <a href="{% url 'export_utilisateurs_csv' %}" class="table-action"><i class='bx bx-archive-arrow-up'></i> Exporter en CSV</a>
     </section>
     <section class="users-table-section users-table-5cols">
         <div class="users-table-header">

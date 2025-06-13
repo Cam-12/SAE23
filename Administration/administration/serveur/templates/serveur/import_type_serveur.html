@@ -1,0 +1,15 @@
+{% extends 'serveur/main.html' %}
+{% block content %}
+<div class="main-content">
+    <section class="dashboard-header">
+        <h1>IMPORTATION DE TYPE DE SERVEURS</h1>
+        <p>Importez un fichier CSV ou JSON</p>
+    </section>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="table-action"><i class='bx bx-archive-arrow-down'></i> Importer</button>
+        <a href="{% url 'list_type_serveur' %}" class="table-action-add">Annuler</a>
+    </form>
+</div>
+{% endblock %}

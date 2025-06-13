@@ -179,3 +179,6 @@ class RessourcesForm(ModelForm):
             'application' : _("Nom de l'application"),
             'service' : _("Nom du service")
         }
+
+class ImportForm(forms.Form):
+    fichier = forms.FileField(label="Fichier à importer")

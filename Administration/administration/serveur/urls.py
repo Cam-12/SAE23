@@ -38,4 +38,16 @@ urlpatterns = [
     path('usageressource/add/', views.add_usageressource, name='add_usageressource'),
     path('usageressource/update/<int:id>/', views.update_usageressource, name='update_usageressource'),
     path('usageressource/delete/<int:id>/', views.delete_usageressource, name='delete_usageressource'),
+
+    path('serveur/import_serveur/', views.import_serveur, name='import_serveur'),
+    path('serveur/import_type_serveur/', views.import_type_serveur, name='import_type_serveur'),
+    path('serveur/import_service/', views.import_service, name='import_service'),
+    path('serveur/import_utilisateur/', views.import_utilisateur, name='import_utilisateur'),
+    path('serveur/import_application/', views.import_application, name='import_application'),
+
+    path('serveur/export_serveurs/', views.export_serveurs_csv, name='export_serveurs_csv'),
+    path('serveur/export_type_serveurs/', views.export_type_serveurs_csv, name='export_type_serveurs_csv'),
+    path('serveur/export_services/', views.export_services_csv, name='export_services_csv'),
+    path('serveur/export_utilisateurs/', views.export_utilisateurs_csv, name='export_utilisateurs_csv'),
+    path('serveur/export_applications/', views.export_applications_csv, name='export_applications_csv'),
 ]
