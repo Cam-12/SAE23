@@ -407,3 +407,39 @@ header {
 .dropdown-menu.show {
     display: flex;
 }
+
+.btn-pdf-container {
+    display: flex;
+    justify-content: flex-start; /* Alignement à gauche */
+    margin-bottom: 20px; /* Marge en bas pour séparer des cartes */
+    width: 100%;
+}
+
+.btn-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-color); /* Couleur primaire du thème */
+    color: var(--white);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: auto; /* Largeur adaptée au texte */
+}
+
+.btn-pdf:hover {
+    background-color: #2ed8b6; /* Légèrement plus clair que la couleur primaire */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.btn-pdf:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}

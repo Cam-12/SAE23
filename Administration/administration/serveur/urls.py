@@ -50,4 +50,6 @@ urlpatterns = [
     path('serveur/export_services/', views.export_services_csv, name='export_services_csv'),
     path('serveur/export_utilisateurs/', views.export_utilisateurs_csv, name='export_utilisateurs_csv'),
     path('serveur/export_applications/', views.export_applications_csv, name='export_applications_csv'),
+
+    path('fiche-services-serveurs-pdf/', views.fiche_services_serveurs_pdf, name='fiche_services_serveurs_pdf'),
 ]

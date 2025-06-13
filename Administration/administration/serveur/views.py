@@ -6,7 +6,13 @@ from django.contrib import messages
 import csv
 from django.core.files import File
 from django.http import HttpResponse
-
+from django.http import FileResponse
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm
+from io import BytesIO
 
 def index(request):
     serveurs = Serveurs.objects.all()
@@ -471,3 +477,83 @@ def export_applications_csv(request):
             services_str
         ])
     return response
+
+def fiche_services_serveurs_pdf(request):
+    # Préparation des données
+    serveurs = Serveurs.objects.all().prefetch_related('services_set')
+    serveurs_stats = []
+    for serveur in serveurs:
+        services = Services.objects.filter(serveur_lanc=serveur)
+        total_ram_used = sum(svc.ram_ness for svc in services)
+        total_cpu_used = sum(svc.cpu for svc in services)
+        total_disk_used = sum(svc.disk for svc in services)
+        serveurs_stats.append({
+            'serveur': serveur,
+            'services': services,
+            'ram_used': total_ram_used,
+            'cpu_used': total_cpu_used,
+            'disk_used': total_disk_used,
+            'ram_dispo': serveur.ram - total_ram_used,
+            'cpu_dispo': serveur.cpu - total_cpu_used,
+            'disk_dispo': serveur.disk - total_disk_used,
+        })
+
+    # Création du PDF
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4)
+    elements = []
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        name='Title',
+        parent=styles['Title'],
+        fontSize=18,
+        spaceAfter=20,
+        alignment=1  # Centré
+    )
+    elements.append(Paragraph("Fiche récapitulative des services par serveur", title_style))
+
+    # Boucle sur les serveurs
+    for stat in serveurs_stats:
+        serveur = stat['serveur']
+        # Titre du serveur
+        elements.append(Paragraph(f"Serveur : {serveur.nom}", styles['Heading2']))
+        elements.append(Spacer(1, 0.2 * cm))
+        # Tableau récapitulatif
+        data = [
+            ['Ressource', 'Disponible', 'Utilisée', 'Restante'],
+            ['RAM (Go)', serveur.ram, stat['ram_used'], stat['ram_dispo']],
+            ['CPU', serveur.cpu, stat['cpu_used'], stat['cpu_dispo']],
+            ['Disque (Go)', serveur.disk, stat['disk_used'], stat['disk_dispo']],
+        ]
+        t = Table(data, colWidths=[5*cm, 3*cm, 3*cm, 3*cm])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.5 * cm))
+        # Liste détaillée des services
+        elements.append(Paragraph("Services lancés sur ce serveur :", styles['Heading3']))
+        elements.append(Spacer(1, 0.2 * cm))
+        for service in stat['services']:
+            service_data = [
+                ['Nom', service.nom],
+                ['Date de lancement', service.date_lancement],
+                ['RAM nécessaire (Go)', service.ram_ness],
+                ['RAM utilisée (Go)', service.ram_util],
+                ['CPU', service.cpu],
+                ['Disque (Go)', service.disk],
+            ]
+            t_service = Table(service_data, colWidths=[4*cm, 10*cm])
+            t_service.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
+            elements.append(t_service)
+            elements.append(Spacer(1, 0.2 * cm))
+        elements.append(Spacer(1, 1 * cm))
+
+    # Génération du PDF
+    doc.build(elements)
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename="fiche_services_serveurs.pdf")
