@@ -1,0 +1,18 @@
+  GNU nano 7.2    /etc/nginx/sites-available/Administration        
+		et    ''    /sites-enabled/       ''                                                                    
+server {
+    listen 80;
+    server_name 10.0.2.15;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        alias /home/toto/Administration/administration/staticfiles/;
+#       alias /tmp/serveur;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.socket;
+    }
+}
+

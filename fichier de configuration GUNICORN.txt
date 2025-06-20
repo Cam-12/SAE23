@@ -1,0 +1,17 @@
+  GNU nano 7.2      /etc/systemd/system/gunicorn.service                                                                                     
+[Unit]
+Description=gunicorn daemon for Django project
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=toto
+Group=www-data
+WorkingDirectory=/home/toto/Administration/administration
+ExecStart=/home/toto/Administration/venv/bin/gunicorn
+        --workers 3
+        --bind unix:/home/toto/Administration/administration.sock
+        administration.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
